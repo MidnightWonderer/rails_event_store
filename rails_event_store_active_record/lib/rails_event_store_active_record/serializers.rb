@@ -1,4 +1,6 @@
 require 'singleton'
+require 'json'
+require 'snappy'
 
 module RailsEventStoreActiveRecord
   class UuidSerializer
@@ -24,8 +26,8 @@ module RailsEventStoreActiveRecord
         uuid_chunk_list = [8, 4, 4, 4, 12]
         chunks_pattern = uuid_chunk_list.
           map do |chunk_size|
-            "([0-9a-f]{#{chunk_size}})"
-          end.
+          "([0-9a-f]{#{chunk_size}})"
+        end.
           join
         Regexp.new(
           "\\A#{chunks_pattern}\\z",
@@ -33,6 +35,24 @@ module RailsEventStoreActiveRecord
         )
       end
       hexadecimal.sub(@hyphen_restorer, '\1-\2-\3-\4-\5')
+    end
+  end
+
+  class CompressionSerializer
+    include Singleton
+
+    class << self
+      delegate :dump, :load, to: :instance
+    end
+
+    def dump(hash_object)
+      return nil unless hash_object
+      Snappy.dump(JSON.dump(hash_object))
+    end
+
+    def load(compressed_binary)
+      return nil unless compressed_binary
+      JSON.load(Snappy.load(compressed_binary))
     end
   end
 end

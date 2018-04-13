@@ -69,11 +69,11 @@ module RailsEventStoreActiveRecord
     end
 
     def read_event(event_id)
-      event             = Event.find(UuidSerializer.dump(event_id))
+      event = Event.find(UuidSerializer.dump(event_id))
       serialized_record = RubyEventStore::SerializedRecord.new(
-        event_id:   UuidSerializer.load(event.id),
-        metadata:   event.metadata,
-        data:       event.data,
+        event_id: UuidSerializer.load(event.id),
+        metadata: event.serialized_data['metadata'],
+        data: event.serialized_data['data'],
         event_type: event.event_type
       )
       @mapper.serialized_record_to_event(serialized_record)
@@ -91,9 +91,9 @@ module RailsEventStoreActiveRecord
 
     def build_event_instance(record)
       serialized_record = RubyEventStore::SerializedRecord.new(
-        event_id:         UuidSerializer.load(record.event.id),
-        metadata:   record.event.metadata,
-        data:       record.event.data,
+        event_id: UuidSerializer.load(record.event.id),
+        metadata: record.event.serialized_data['metadata'],
+        data: record.event.serialized_data['data'],
         event_type: record.event.event_type
       )
       @mapper.serialized_record_to_event(serialized_record)

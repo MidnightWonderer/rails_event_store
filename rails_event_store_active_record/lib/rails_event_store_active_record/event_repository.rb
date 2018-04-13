@@ -145,8 +145,10 @@ module RailsEventStoreActiveRecord
       serialized_record = @mapper.event_to_serialized_record(event)
       Event.new(
         id: UuidSerializer.dump(serialized_record.event_id),
-        data: serialized_record.data,
-        metadata: serialized_record.metadata,
+        serialized_data: {
+          data: serialized_record.data,
+          metadata: serialized_record.metadata,
+        },
         event_type: serialized_record.event_type
       )
     end

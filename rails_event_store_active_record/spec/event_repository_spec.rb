@@ -53,20 +53,26 @@ module RailsEventStoreActiveRecord
     specify "explicit sorting by position rather than accidental" do
       e1 = Event.create!(
         id: u1 = SecureRandom.uuid,
-        data: {},
-        metadata: {},
+        serialized_data: {
+          data: YAML.dump({}),
+          metadata: YAML.dump({}),
+        },
         event_type: TestDomainEvent.name,
       )
       e2 = Event.create!(
         id: u2 = SecureRandom.uuid,
-        data: {},
-        metadata: {},
+        serialized_data: {
+          data: YAML.dump({}),
+          metadata: YAML.dump({}),
+        },
         event_type: TestDomainEvent.name,
       )
       e3 = Event.create!(
         id: u3 = SecureRandom.uuid,
-        data: {},
-        metadata: {},
+        serialized_data: {
+          data: YAML.dump({}),
+          metadata: YAML.dump({}),
+        },
         event_type: TestDomainEvent.name,
       )
       EventInStream.create!(
@@ -96,20 +102,26 @@ module RailsEventStoreActiveRecord
     specify "explicit sorting by position rather than accidental for all events" do
       e1 = Event.create!(
         id: u1 = SecureRandom.uuid,
-        data: {},
-        metadata: {},
+        serialized_data: {
+          data: YAML.dump({}),
+          metadata: YAML.dump({}),
+        },
         event_type: TestDomainEvent.name,
       )
       e2 = Event.create!(
         id: u2 = SecureRandom.uuid,
-        data: {},
-        metadata: {},
+        serialized_data: {
+          data: YAML.dump({}),
+          metadata: YAML.dump({}),
+        },
         event_type: TestDomainEvent.name,
       )
       e3 = Event.create!(
         id: u3 = SecureRandom.uuid,
-        data: {},
-        metadata: {},
+        serialized_data: {
+          data: YAML.dump({}),
+          metadata: YAML.dump({}),
+        },
         event_type: TestDomainEvent.name,
       )
       EventInStream.create!(

@@ -12,8 +12,7 @@ class CreateEventStoreEvents < ActiveRecord::Migration<%= migration_version %>
     create_table(:event_store_events, id: false, force: false) do |t|
       t.binary :id, limit: 16, index: { unique: true }, null: false
       t.string :event_type, null: false
-      t.binary :metadata
-      t.binary :data, null: false
+      t.binary :serialized_data, null: false
       t.datetime :created_at, index: true, null: false
     end
   end
